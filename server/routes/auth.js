@@ -7,7 +7,7 @@ router.get('*', function(req, res, next) {
 		if(data.result == true){
 			next();
 		}else{
-			res.redirect('http://yao.holdfun.cn/boss/admin/login');
+			res.jsonp({code: 403});
 		}
 	});
 });
@@ -17,7 +17,7 @@ router.post('*', function(req, res, next) {
 		if(data.result == true){
 			next();
 		}else{
-			res.redirect('http://yao.holdfun.cn/boss/admin/login');
+			res.jsonp({code: 403});
 		}
 	});
 });

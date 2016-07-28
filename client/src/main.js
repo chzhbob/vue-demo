@@ -3,10 +3,12 @@ import VueRouter from 'vue-router'
 import VueTouch from 'vue-touch'
 
 import Main from '../component/Main.vue'
-
 import Detail from '../component/Detail.vue';
+import Home from '../component/Home.vue';
 import List from '../component/List.vue';
-import About from '../component/About.vue';
+import Settings from '../component/Settings.vue';
+import Cookies from 'cookies-js'
+Cookies.set('openid', '1');
 
 Vue.use(VueRouter);
 Vue.use(VueTouch);
@@ -18,29 +20,33 @@ router.map({
 	'/': {
 		component: Main,
 		subRoutes: {
-			'/list': {
-				component: List	
+			'/home': {
+				component: Home	
 			},
-			'/note': {
-				component: function(resolve){
-					require(['../component/Note.vue'], resolve)
-				}
+			'/list': {
+				component: List
+				// component: function(resolve){
+				// 	require(['../component/Note.vue'], resolve)
+				// }
 				
 			},
-			'/about': {
-				component: About
+			'/settings': {
+				component: Settings
 			}
 		}
 	},
 
-	'/detail': {
-		component: Detail
+	'/detail/:aid/page/:cid': {
+		component : Detail,
 	}
+	
 });
 
 router.redirect({
-	'/' : '/list'
+	'/' : '/home'
 });
+
+
 
 router.mode = 'html5';
 router.start(Root, '#app');

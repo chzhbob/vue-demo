@@ -1,11 +1,8 @@
 <template>
-
 	<ul class="top-nav">
 		<li class="nav-logo"></li>
-		<li v-touch:tap="navTo('/list')" >实验室</li>
-		<li v-touch:tap="navTo('/note')" >小笔记</li>
-		<li v-touch:tap="navTo('/about')" >关于</li>
-		
+		<li v-bind:class="{ 'active': isHome }" v-touch:tap="navTo('/home')" >我的</li>
+		<li v-bind:class="{ 'active': isList }" v-touch:tap="navTo('/list')" >一些书</li>
 	</ul>
 </template>
 
@@ -16,29 +13,40 @@ export default{
 	methods: {
 		navTo: function(url){
 			this.$route.router.go(url);
-			// this.slideTo(url);
+			this.updateActive(url);
 		},
 
-		slideTo: function(url){
-			switch(url){
-				case '/list':
-					this.slideTo(0);
-					break;
-				case '/note':
-					this.slideTo(1);
-					break;
-				case '/about':
-					this.slideTo(2);
-					break;
-				default:
-					this.slideTo(0);
+		updateActive: function(url){
+			this.isHome = this.isList = this.isSettings = false;
+
+			if(url){
+				var router = url;
+			}else{
+				var router = this.$route.path.toString();	
+			}
+			
+			if(router.indexOf('/home') >= 0){
+				this.isHome = true;
+			}else if(router.indexOf('/list') >= 0){
+				this.isList = true;
+			}else if(router.indexOf('/settings') >= 0){
+				this.isSettings = true;
 			}
 		}
 	},
 
 	created: function(){
-		// this.slideTo(this.$route.path);
+		this.updateActive();
+	},
+
+	data: function(){
+		return {
+			isHome : false,
+			isList : false,
+			isSettings : false
+		}
 	}
+	
 }
 
 </script>
@@ -46,7 +54,7 @@ export default{
 <style type="text/css">
 .top-nav{
 	width: 100%;
-	background: white;
+	background: rgba(255, 255, 255, 0.9);
 	position: fixed;
 	left: 0px;
 	top: 0px;
@@ -56,14 +64,15 @@ export default{
 .top-nav li{
 	color: #666666;
 	float: left;
-	width: 33.33%;
+	width: 50%;
 	line-height: 44px;
 	font-size: 14px;
 	text-align: center;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
-	background: #fff;
 }
-
+.top-nav li.active{
+	color: #ffb600;
+}
 .top-nav .nav-logo{
 	background: #ffce54;
 	height: 44px;

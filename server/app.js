@@ -11,6 +11,7 @@ var ejs = require('ejs');
 var auth = require('./routes/auth');
 var index = require('./routes/index');
 var api = require('./routes/api');
+var refresh = require('./routes/refresh');
 
 var app = express();
 
@@ -34,9 +35,11 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// app.use(auth);
+
 // app.use('/', index);
+app.use(auth);
 app.use('/api', api);
+app.use('/refresh', refresh);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -71,3 +74,4 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+

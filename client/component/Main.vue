@@ -1,7 +1,7 @@
 <template>
 	<section class="app">
 		<app-navi></app-navi>
-		<router-view></router-view>
+		<router-view keep-alive></router-view>
 		<app-footer></app-footer>
 	</section>
 </template>

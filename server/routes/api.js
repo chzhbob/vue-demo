@@ -2,49 +2,62 @@ var express = require('express');
 var cheerio = require('cheerio');
 var router = express.Router();
 var config = require("../config");
+var article = require("../model/article");
+var chapter = require("../model/chapter");
+
 
 /*---------------tools-----------*/
 router.get('/list', function(req, res, next) {
-	
-	var items = [
-	{
-		img: './imgs/avatar.jpg',
-		title: '第一条条目',
-		like: 123
-	},{
-		img: './imgs/avatar.jpg',
-		title: '第二条条目',
-		like: 132
-	},{
-		img: './imgs/avatar.jpg',
-		title: '第三条条目',
-		like: 62
-	},{
-		img: './imgs/avatar.jpg',
-		title: '第四条条目',
-		like: 15
-	},{
-		img: './imgs/avatar.jpg',
-		title: '第五条条目',
-		like: 32
-	},{
-		img: './imgs/avatar.jpg',
-		title: '第六条条目',
-		like: 22
-	},{
-		img: './imgs/avatar.jpg',
-		title: '第七条条目',
-		like: 14
-	},{
-		img: './imgs/avatar.jpg',
-		title: '第八条条目',
-		like: 22
-	}];
-
-
-	res.jsonp({code: 0, data: items});
-	
+	article.getList(function(result){
+		res.jsonp({code: 0, data: result});
+	});
 });
 
+
+router.get('/home', function(req, res, next) {
+	article.getHome(req.cookies["openid"], function(result){
+		res.jsonp({code: 0, data: result});
+	});
+});
+
+
+router.get('/detail', function(req, res, next) {
+
+	var aid = req.query.aid;
+	if(!aid){
+		res.jsonp({code: 1, data: null});
+		return;
+	}
+
+	var cid = req.query.cid;
+	chapter.get(aid, cid, function(result){
+		article.detail(aid, function(detail){
+			article.followed(req.cookies["openid"], aid, cid, function(followed){
+				res.jsonp({code: 0, data: result,article: detail.detail.title, total: detail.total, followed: followed});	
+			});
+		})
+	});
+
+});
+
+router.get('/follow', function(req, res, next) {
+
+	var aid = req.query.aid;
+	if(!aid){
+		res.jsonp({code: 1, data: null});
+		return;
+	}
+
+	var cid = req.query.cid;
+	if(!cid){
+		res.jsonp({code: 1, data: null});
+		return;
+	}
+
+	article.follow(req.cookies["openid"], aid, cid, function(result){
+		res.jsonp({code: 0, data: result});	
+	});
+
+});
 
 module.exports = router;

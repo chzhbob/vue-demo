@@ -1,5 +1,5 @@
 <template>
-	<footer>powered by chzhbob</footer>
+	<footer>Powered by weCan</footer>
 </template>
 
 <style type="text/css">
@@ -8,6 +8,6 @@
 		width: 100%;
 		text-align: center;
 		color: #ddd;
-		padding: 8px 0;
+		padding: 8px 0 16px;
 	}
 </style>

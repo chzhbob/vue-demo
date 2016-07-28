@@ -4,7 +4,7 @@ config.mysqlConfig = {
 	host     : 'localhost',
 	user     : 'root',
 	password : '',
-	database : 'diy'
+	database : 'wecan'
 };
 
 // config.mysqlConfig = {
@@ -22,8 +22,3 @@ config.make = {
 };
 
 config.env = 'dev';
-
-config.apiDomain = 'http://henan.yao.holdfun.cn/';
-
-config.root = 'http://henan.yao.holdfun.cn/diy/';
-// config.root = 'http://yao.holdfun.cn/diy/';
